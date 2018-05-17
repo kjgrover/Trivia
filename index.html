@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta charset="UTF-8">
+  <title>Trivia!</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Bootstrap File -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    
+    
+   
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery.js"></script>
+     
+  <style>
+  .ground {
+      background: #621817;
+  }
+
+  .jumbotron {
+      background: #56514b;
+      color: whitesmoke;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 300%;
+      
+      }
+
+  .question {
+    color: whitesmoke;
+
+  }
+  </style>
+   
+</head>
+   
+<body class="ground">
+    
+  <!-- Overall Bootstrap Grid -->
+  <div class="container">
+    
+    <!-- Jumbotron with Title -->
+    <div class="rounded">
+    <div class="jumbotron">
+      <h1 class="text-center">
+        <strong class="text-lg-left"><i>TRIVIA</i></strong>
+      </h1>
+    </div>
+    </div>
+    
+    <h1 class="text-center">
+        <strong class="question">INSERT QUESTION HERE</strong>
+    </h1>
+
+    <hr>
+    
+    
+    
+    <h1 class="text-center">
+    <div class="btn-group-vertical">
+        
+            <button type="button" class="btn btn-outline-secondary btn-lg button1" id="answerButton">Answer one</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg button2" id="answerButton">Answer two</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg button3" id="answerButton">Answer three</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg button4" id="answerButton">Answer four</button>
+    </div>
+    </h1>
+    
+    
+
+
+     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+  // JavaScript function that wraps everything
+  $(document).ready(function() {
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+var queryURL = "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple";
+
+$.ajax({
+  url: queryURL,
+  method: "GET"
+}).then(function(response) {
+  console.log(response);
+
+i=0;
+
+
+var newQuestion =response.results[i].question;
+
+var question = $(".question").text(newQuestion);
+
+var button1 = $(".button1");
+var button2 = $(".button2");
+var button3 = $(".button3");
+var button4 = $(".button4");
+
+var buttonArray = [button1, button2, button3, button4];
+
+correctAnswer = response.results[i].correct_answer;
+
+
+
+var answer1 = response.results[i].correct_answer;
+var answer2 = response.results[i].incorrect_answers[0];
+var answer3 = response.results[i].incorrect_answers[1];
+var answer4 = response.results[i].incorrect_answers[2];
+
+var answerArray = [answer1, answer2, answer3, answer4];
+var answerArrayShuffle = shuffle(answerArray)
+
+
+
+
+
+button1.text(answerArrayShuffle[0])
+button2.text(answerArrayShuffle[1])
+button3.text(answerArrayShuffle[2])
+button4.text(answerArrayShuffle[3])
+
+//for (i=0; i<9;) {
+
+
+$("#answerButton").click(function() {
+
+var d = $(this).text();      
+console.log(d)
+
+
+if (d == correctAnswer) {
+    i++
+var answer1 = response.results[i].correct_answer;
+var answer2 = response.results[i].incorrect_answers[0];
+var answer3 = response.results[i].incorrect_answers[1];
+var answer4 = response.results[i].incorrect_answers[2];
+var answerArray = [answer1, answer2, answer3, answer4];
+var answerArrayShuffle = shuffle(answerArray)
+button1.text(answerArrayShuffle[0])
+button2.text(answerArrayShuffle[1])
+button3.text(answerArrayShuffle[2])
+button4.text(answerArrayShuffle[3])
+    console.log(i)
+    
+    
+    alert("correct!")
+    
+    }
+
+else if (d !== correctAnswer) { 
+
+    i++
+var answer1 = response.results[i].correct_answer;
+var answer2 = response.results[i].incorrect_answers[0];
+var answer3 = response.results[i].incorrect_answers[1];
+var answer4 = response.results[i].incorrect_answers[2];
+var answerArray = [answer1, answer2, answer3, answer4];
+var answerArrayShuffle = shuffle(answerArray)
+button1.text(answerArrayShuffle[0])
+button2.text(answerArrayShuffle[1])
+button3.text(answerArrayShuffle[2])
+button4.text(answerArrayShuffle[3])
+    console.log(i)    
+    
+    alert("wrong!")
+
+if (i==9) {
+
+    location.reload()
+}
+    
+
+}
+
+
+} ); 
+
+
+
+
+
+  })
+
+  })
+
+  </script>
+
+</body>
+</html>
